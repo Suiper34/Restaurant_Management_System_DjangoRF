@@ -11,10 +11,10 @@ from restaurant.models import InventoryItem, MenuItem, Order, OrderLine, Table
 class ModelIntegrityTests(TestCase):
     def setUp(self) -> None:
         self.user = get_user_model().objects.create_user(
-            username="diner", password="test-pass"
+            username='suip', password='test-pass'
         )
         self.menu_item = MenuItem.objects.create(
-            name="Burger", description="Tasty", price=Decimal("9.99")
+            name='Jollof', description='tasty', price=Decimal('19.99')
         )
         self.table = Table.objects.create(number=1, seats=4)
         self.inventory = InventoryItem.objects.create(
@@ -37,9 +37,9 @@ class ModelIntegrityTests(TestCase):
         order = Order.objects.create(user=self.user, table=self.table)
         line = OrderLine.objects.create(
             order=order, menu_item=self.menu_item, quantity=2)
-        self.assertEqual(line.line_total, Decimal("19.98"))
+        self.assertEqual(line.line_total, Decimal('19.98'))
 
     def test_menu_item_price_validation(self) -> None:
-        item = MenuItem(name="Invalid", price=Decimal("-1"))
+        item = MenuItem(name='Invalid', price=Decimal('-1'))
         with self.assertRaises(ValidationError):
             item.full_clean()
