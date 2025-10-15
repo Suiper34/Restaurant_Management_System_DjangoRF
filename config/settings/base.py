@@ -50,7 +50,7 @@ ALLOWED_HOSTS: list[str] = get_env_list(
     'DJANGO_ALLOWED_HOSTS', '127.0.0.1,localhost')
 
 ADMIN_SITE_TITLE: str = get_env(
-    'ADMIN_SITE_TITLE', 'Restaurant Management Admin')
+    'ADMIN_SITE_TITLE', 'Restaurant Management Admin Panel')
 ADMIN_INDEX_TITLE: str = get_env(
     'ADMIN_INDEX_TITLE', 'Jhapson Administration')
 
