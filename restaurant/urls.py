@@ -8,6 +8,9 @@ from .views import (
     OrderViewSet,
     ReservationViewSet,
     TableViewSet,
+    assign_manager,
+    list_users,
+    remove_manager,
 )
 
 app_name = 'restaurant'
@@ -20,4 +23,9 @@ router.register('orders', OrderViewSet, basename='orders')
 
 urlpatterns = [
     path('api/', include(router.urls),),
+    path('managers/users/', list_users, name='manager-user-list'),
+    path('managers/users/<int:user_id>/assign/',
+         assign_manager, name='manager-assign'),
+    path('managers/users/<int:user_id>/remove/',
+         remove_manager, name='manager-remove'),
 ]

@@ -1,12 +1,17 @@
 from __future__ import annotations
 
 import logging
+from datetime import datetime
+from typing import Any
 
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import Group
 from django.db import transaction
-from django.shortcuts import get_object_or_404
+from django.http import HttpRequest, HttpResponse
+from django.shortcuts import get_object_or_404, render
+from django.template import TemplateDoesNotExist
 from rest_framework import status, viewsets
-from rest_framework.decorators import action, permission_classes
+from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
@@ -19,7 +24,6 @@ from .services import InventoryError, process_order
 
 logger = logging.getLogger(__name__)
 User = get_user_model()
-
 
 class MenuItemViewSet(viewsets.ModelViewSet):
     queryset = MenuItem.objects.all().order_by('name')
@@ -88,3 +92,61 @@ class OrderViewSet(viewsets.ModelViewSet):
         order.mark_status(Order.Status.CANCELLED)
 
         return Response({'status': 'cancelled'}, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, IsManager])
+def list_users(request: HttpRequest) -> Response:
+    users = (
+        User.objects.all()
+        .order_by('username')
+        .prefetch_related('groups')
+    )
+
+    payload: list[dict[str, Any]] = []
+
+    for user in users:
+        payload.append(
+            {
+                'id': user.id,
+                'username': user.username,
+                'email': user.email,
+                'is_staff': user.is_staff,
+                'is_manager': user.groups.filter(name='Managers').exists(),
+            }
+        )
+
+    return Response(payload)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated, IsManager])
+def assign_manager(request: HttpRequest, user_id: int) -> Response:
+    user = get_object_or_404(User, pk=user_id)
+    managers_group, _ = Group.objects.get_or_create(name='Managers')
+
+    if managers_group.user_set.filter(pk=user.pk).exists():
+        return Response(
+            {'message': 'User is already a manager!'},
+            status=status.HTTP_200_OK)
+
+    managers_group.user_set.add(user)
+
+    return Response(
+        {'message': 'User added to Managers!'}, status=status.HTTP_200_OK)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated, IsManager])
+def remove_manager(request: HttpRequest, user_id: int) -> Response:
+    user = get_object_or_404(User, pk=user_id)
+    managers_group = get_object_or_404(Group, name='Managers')
+
+    if not managers_group.user_set.filter(pk=user.pk).exists():
+        return Response(
+            {'message': 'User is not a manager!'}, status=status.HTTP_200_OK)
+
+    managers_group.user_set.remove(user)
+
+    return Response(
+        {'message': 'User removed from Managers!'}, status=status.HTTP_200_OK)
