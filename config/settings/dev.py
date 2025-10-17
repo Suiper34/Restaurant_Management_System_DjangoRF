@@ -21,7 +21,7 @@ DATABASES: dict[str, dict[str, Any]] = {
 
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
-LOGIN_REDIRECT_URL: str = 'restaurant:home'
+LOGIN_REDIRECT_URL: str = 'restaurant:managers-page'
 LOGOUT_REDIRECT_URL: str = 'restaurant:home'
 
 REST_FRAMEWORK['DEFAULT_AUTHENTICATION_CLASSES'] = (

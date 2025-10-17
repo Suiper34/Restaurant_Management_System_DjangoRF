@@ -14,6 +14,8 @@ urlpatterns = [
     path('api/token/refresh/', TokenRefreshView.as_view(),
          name='token_refresh'),
 
+    path('accounts/', include('django.contrib.auth.urls')),
+
     path('', include(('restaurant.urls', 'restaurant'),
                      namespace='restaurant')),
 ]
