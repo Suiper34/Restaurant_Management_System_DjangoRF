@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="managers-dashboard">
+    <header class="section-header">
+        <h2 class="section-title">Managers Dashboard</h2>
+        <p class="section-subtitle">
+            Promote or demote team members. Actions update immediately via authenticated API calls.
+        </p>
+    </header>
+    <div id="manager-users"></div>
+</section>
+{% endblock %}
+
+{% block footer %}
+<footer class="footer">
+    <p>
+        Restaurant Management System &mdash;
+        &copy; JhapTech Inc. {{ year }}
+    </p>
+</footer>
+{% endblock %}

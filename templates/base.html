@@ -1,0 +1,53 @@
+{% load static %}
+{% load group_tags %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>rms</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="{% static 'styles.css' %}" rel="stylesheet">
+</head>
+
+<body data-page="{{ page_slug|default:'home' }}">
+    <header>
+        <div class="navbar">
+            <a href="{% url 'restaurant:home' %}" class="brand">Restaurant Management System - RMS</a>
+            <button class="nav-toggle" data-nav-toggle aria-expanded="false" aria-controls="primary-navigation">
+                ☰
+            </button>
+            <nav id="primary-navigation" data-nav>
+                {% if user.is_authenticated %}
+                {% if user|is_in_group:'Managers' %}
+                <a class="cta" href="{% url 'restaurant:managers-page' %}">Managers</a>
+                {% else %}
+                <span class="badge badge-muted">Logged in</span>
+                {% endif %}
+                {% else %}
+                <a class="cta" href="{% url 'admin:login' %}">Sign in</a>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+
+    <div id="app-toast" class="toast-container" aria-live="polite"></div>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    {% block footer %}
+    <footer class="footer">
+        <p>
+            Restaurant Management System &mdash;
+            &copy; JhapTech Inc. {{ year|default:year }}.
+        </p>
+    </footer>
+    {%endblock%}
+    
+    <script src="{% static 'main.js' %}" defer></script>
+    {% block scripts %}{% endblock %}
+</body>
+
+</html>
