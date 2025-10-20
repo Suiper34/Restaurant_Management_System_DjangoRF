@@ -10,6 +10,7 @@ from .views import (
     ReservationViewSet,
     TableViewSet,
     assign_manager,
+    home,
     list_users,
     remove_manager,
 )
@@ -23,6 +24,7 @@ router.register('reservations', ReservationViewSet, basename='reservations')
 router.register('orders', OrderViewSet, basename='orders')
 
 urlpatterns = [
+    path('', home, name='home'),
     path('api/', include(router.urls),),
     path('managers/', managers_page, name='managers-page'),
     path('managers/users/', list_users, name='manager-user-list'),

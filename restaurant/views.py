@@ -25,6 +25,19 @@ from .services import InventoryError, process_order
 logger = logging.getLogger(__name__)
 User = get_user_model()
 
+
+def home(request: HttpRequest) -> HttpResponse:
+    context: dict[str, Any] = {
+        'year': datetime.now().year,
+        'page_slug': 'home'}
+
+    try:
+        return render(request, 'index.html', context)
+
+    except TemplateDoesNotExist:
+        return render(request, '404.html', context, status=404)
+
+
 class MenuItemViewSet(viewsets.ModelViewSet):
     queryset = MenuItem.objects.all().order_by('name')
     serializer_class = MenuItemSerializer

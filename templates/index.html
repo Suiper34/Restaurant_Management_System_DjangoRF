@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero" id="dashboard">
+    <div>
+        <h1>Run restaurant operations with confidence.</h1>
+        <p class="lead">
+            Manage menus, inventory, tables, reservations, and orders with a robust Django backend that keeps your team
+            aligned and your guests happy.
+        </p>
+        <div class="hero-actions">
+            <a href="{% url 'restaurant:managers-page' %}" class="button button-primary">
+                Go to Managers Dashboard
+            </a>
+            <a href="#api" class="button button-outline">
+                Explore the API
+            </a>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="features">
+    <header class="section-header">
+        <h2 class="section-title">Why teams choose this RMS</h2>
+        <p class="section-subtitle">
+            Tailored for busy restaurants that demand accuracy, security, and performance without sacrificing usability.
+        </p>
+    </header>
+    <div class="grid grid-3">
+        <article class="card">
+            <h3>Inventory-aware orders</h3>
+            <p>Orders reserve stock atomically through transactional logic, preventing overselling and maintaining
+                accurate counts.</p>
+        </article>
+        <article class="card">
+            <h3>Smart reservations</h3>
+            <p>Built-in conflict detection keeps tables and schedules organized while empowering staff and guests.</p>
+        </article>
+        <article class="card">
+            <h3>Role-based access</h3>
+            <p>Managers get elevated permissions via JWT-protected APIs and a curated dashboard; staff stay focused on
+                their tasks.</p>
+        </article>
+    </div>
+</section>
+
+<section class="section" id="api">
+    <header class="section-header">
+        <h2 class="section-title">API Highlights</h2>
+        <p class="section-subtitle">The REST endpoints.</p>
+    </header>
+    <div class="grid grid-3">
+        <article class="card">
+            <h3>Menu & Inventory</h3>
+            <ul>
+                <li><code>GET /api/menu/</code></li>
+                <li><code>POST /api/menu/</code> (Managers)</li>
+                <li><code>GET /api/tables/</code></li>
+            </ul>
+        </article>
+        <article class="card">
+            <h3>Reservations & Orders</h3>
+            <ul>
+                <li><code>POST /api/reservations/</code></li>
+                <li><code>POST /api/orders/</code></li>
+                <li><code>POST /api/orders/{id}/complete/</code> (Managers)</li>
+            </ul>
+        </article>
+        <article class="card">
+            <h3>Managers Toolkit</h3>
+            <ul>
+                <li><code>GET /managers/users/</code></li>
+                <li><code>POST /managers/users/{id}/assign/</code></li>
+                <li><code>POST /managers/users/{id}/remove/</code></li>
+            </ul>
+        </article>
+    </div>
+</section>
+
+<section class="section" id="auth">
+    <header class="section-header">
+        <h2 class="section-title">Authentication</h2>
+        <p class="section-subtitle">
+            Choose session auth for browser access or JWT for headless integrations. Refresh tokens keep integrations
+            online safely.
+        </p>
+    </header>
+    <div class="card">
+        <h3>JWT Workflow</h3>
+        <ol>
+            <li><code>POST /api/token/</code> with username/password to obtain access & refresh tokens.</li>
+            <li>Attach the access token to <code>Authorization: Bearer &lt;token&gt;</code> headers.</li>
+            <li>Renew using <code>POST /api/token/refresh/</code> before expiry.</li>
+        </ol>
+    </div>
+</section>
+{% endblock %}

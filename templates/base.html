@@ -18,7 +18,11 @@
                 ☰
             </button>
             <nav id="primary-navigation" data-nav>
+                <a href="{% url 'restaurant:home' %}#features">Features</a>
+                <a href="{% url 'restaurant:home' %}#api">API</a>
+                <a href="{% url 'restaurant:home' %}#auth">Auth</a>
                 {% if user.is_authenticated %}
+                <a href="{% url 'restaurant:home' %}#dashboard">Dashboard</a>
                 {% if user|is_in_group:'Managers' %}
                 <a class="cta" href="{% url 'restaurant:managers-page' %}">Managers</a>
                 {% else %}
