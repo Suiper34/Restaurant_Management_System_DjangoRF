@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <section class="auth-card">
+        <h1>Sign in</h1>
+    
+        {% if form.errors %}
+        <div class="alert alert-error">
+            Please check your username and password and try again.
+        </div>
+        {% endif %}
+    
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            <input type="hidden" name="{{ redirect_field_name }}" value="{{ next }}">
+            <div class="form-group">
+                <label for="{{ form.username.id_for_label }}">Username</label>
+                {{ form.username }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.password.id_for_label }}">Password</label>
+                {{ form.password }}
+            </div>
+    
+            <button type="submit" class="btn btn-primary">Sign in</button>
+        </form>
+    
+        <p class="muted">
+            You’ll be returned to your original destination after logging in.
+        </p>
+    </section>
+{% endblock %}
+
+{% block footer %}
+<footer class="footer">
+    <p>
+        Restaurant Management System &mdash;
+        &copy; JhapTech Inc. {{ year }}
+    </p>
+</footer>
+{% endblock %}
