@@ -25,6 +25,9 @@ def check_table_availability(
     *,
     exclude_reservation_id: int | None = None,
 ) -> bool:
+    """
+    Return True if the supplied table is available for the requested time slot.
+    """
     conflicts = Reservation.objects.filter(
         table=table,
         start_time__lt=end_time,
@@ -57,7 +60,8 @@ def process_order(order: Order) -> None:
             )
         except InventoryItem.DoesNotExist:
             raise InventoryError(
-                f'No inventory record for {line.menu_item.name}')
+                f'No inventory record for {line.menu_item.name}'
+            )
 
         if inventory_item.quantity < line.quantity:
             raise InventoryError(
