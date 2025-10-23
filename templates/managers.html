@@ -10,6 +10,33 @@
     </header>
     <div id="manager-users"></div>
 </section>
+<section class="card">
+    <h2>Team Management</h2>
+    <div id="manager-users" aria-live="polite">
+        <p>Loading users…</p>
+    </div>
+</section>
+
+<section class="card">
+    <h2>Daily Sales Snapshot</h2>
+    <div id="manager-daily-sales" aria-live="polite">
+        <p>Loading sales data…</p>
+    </div>
+</section>
+
+<section class="card">
+    <h2>Stock Alerts</h2>
+    <div id="manager-stock-alerts" aria-live="polite">
+        <p>Loading stock alerts…</p>
+    </div>
+</section>
+
+<section class="card">
+    <h2>Admin Access</h2>
+    <p>Open the advanced administration panel to configure menus, inventory, and staff permissions.</p>
+    <a class="button" href="{{ admin_url }}">Open Admin Panel</a>
+</section>
+<div id="app-toast" aria-live="polite" aria-atomic="true"></div>
 {% endblock %}
 
 {% block footer %}
