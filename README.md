@@ -40,6 +40,7 @@ All dashboard actions interact with authenticated API endpoints. Toast notificat
 
 ## Project Structure
 
+   ```
    restaurant_management_system/
     ├── manage.py
     ├── config/
@@ -86,6 +87,7 @@ All dashboard actions interact with authenticated API endpoints. Toast notificat
     ├── Procfile
     ├── .env
     └── README.md
+   ```
 
 ## Quickstart
 
